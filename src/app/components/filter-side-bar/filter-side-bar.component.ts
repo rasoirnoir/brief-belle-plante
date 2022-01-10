@@ -8,9 +8,12 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 export class FilterSideBarComponent implements OnInit {
   @Input() listCategories: string[];
   @Output() filterPrice = new EventEmitter();
+  @Output() filterStar = new EventEmitter<any[]>();
+  starFilter: any[];
 
   constructor() {
     this.listCategories = [];
+    this.starFilter = [];
   }
 
   ngOnInit(): void {}
@@ -24,7 +27,17 @@ export class FilterSideBarComponent implements OnInit {
     )).value;
     const minVal = minValue ? parseInt(minValue) : 0;
     const maxVal = maxValue ? parseInt(maxValue) : 0;
-    this.filterPrice.emit(new MinMax(minVal, maxVal));
+    if (minVal <= maxVal) this.filterPrice.emit(new MinMax(minVal, maxVal));
+  }
+
+  onAvisClick() {
+    console.log('Avis click :)');
+    this.filterStar.emit(this.starFilter);
+  }
+
+  onStarClick(starArray: any[]) {
+    console.log(starArray);
+    this.starFilter = starArray;
   }
 }
 

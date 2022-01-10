@@ -11,12 +11,14 @@ import * as _ from 'underscore';
 export class PageAccueilComponent implements OnInit {
   public listData: any[];
   public listCategoriesFilter: string[];
-  public listDataFilteredByPrice: any[];
+  // public listDataFilteredByPrice: any[];
+  public listPlantFilter: any[];
 
   constructor(private plantouneService: PlantouneService) {
     this.listData = [];
     this.listCategoriesFilter = [];
-    this.listDataFilteredByPrice = [];
+    // this.listDataFilteredByPrice = [];
+    this.listPlantFilter = [];
   }
 
   /**
@@ -51,8 +53,9 @@ export class PageAccueilComponent implements OnInit {
       const listUniqJsCategories = [...new Set(listAllCategories)];
       console.log(listUniqJsCategories);
 
-      this.listCategoriesFilter = listUniqJsCategories;
-      this.listData = listPlant;
+      // this.listCategoriesFilter = listUniqJsCategories;
+      this.listData = [...listPlant];
+      this.listPlantFilter = [...this.listData];
       this.listData.length = 9;
     });
   }
@@ -69,13 +72,21 @@ export class PageAccueilComponent implements OnInit {
   }
 
   private filterByPrice(minValue: number, maxValue: number) {
-    this.listDataFilteredByPrice = this.listData.filter((product) => {
+    this.listData = this.listPlantFilter.filter((product) => {
       return (
         parseInt(product.product_unitprice_ati) <= maxValue &&
         parseInt(product.product_unitprice_ati) >= minValue
       );
     });
+    this.listData.length = 20;
     console.log('Plantes filtrées par prix : ');
-    console.log(this.listDataFilteredByPrice);
+    console.log(this.listData);
+  }
+
+  onStarFiltered(starArray: any[]) {
+    console.log(starArray);
+    this.listData = this.listPlantFilter.filter((product) => {
+      
+    });
   }
 }

@@ -30,6 +30,7 @@
         name="filter-price-min"
         min="0"
         max="1000"
+        value="min"
       />
       <input
         type="number"
@@ -37,10 +38,17 @@
         name="filter-price-max"
         min="0"
         max="1000"
+        value="max"
       />
       <button class="btn btn-success" (click)="onFilterPriceClick()">
         Valider
       </button>
+    </div>
+
+    <div class="p-3">
+      <p class="mb-1 fs-5 fw-semibold">Avis</p>
+      <app-avis-bar (starClicked)="onStarClick($event)"></app-avis-bar>
+      <button class="btn btn-success" (click)="onAvisClick()">Valider</button>
     </div>
   </ul>
 </div>
