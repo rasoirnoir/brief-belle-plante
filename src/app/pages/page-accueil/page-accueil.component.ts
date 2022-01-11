@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { MinMax } from 'src/app/components/filter-side-bar/filter-side-bar.component';
 import { PlantouneService } from 'src/app/services/plantoune.service';
 import * as _ from 'underscore';
-import { any, filter } from 'underscore';
 
 @Component({
   selector: 'app-page-accueil',
@@ -13,14 +12,20 @@ export class PageAccueilComponent implements OnInit {
   public listData: any[];
   public listCategoriesFilter: string[];
   public listPlantFilter: any[];
-  public search = '';
-  public filtreCat: string[];
+
   counterPrix: number;
   counterAlpha: number;
   counterAvis: number;
   upDownPrix: boolean;
   upDownAlpha: boolean;
   upDownAvis: boolean;
+
+  //Critères de filtre
+  private minValue: number;
+  private maxValue: number;
+  private rating: number;
+  private filtreCat: string[];
+  public search = '';
 
   constructor(private plantouneService: PlantouneService) {
     this.listData = [];
@@ -33,6 +38,9 @@ export class PageAccueilComponent implements OnInit {
     this.upDownPrix = true;
     this.upDownAlpha = true;
     this.upDownAvis = true;
+    this.minValue = 0;
+    this.maxValue = 1000;
+    this.rating = 0;
   }
 
   ngOnInit(): void {
@@ -51,6 +59,7 @@ export class PageAccueilComponent implements OnInit {
        */
       const listUniqJsCategories = [...new Set(listAllCategories)];
       this.listCategoriesFilter = listUniqJsCategories;
+      this.filtreCat = this.listCategoriesFilter;
       this.listData = [...listPlant];
       this.listData.length = 9;
       this.listPlantFilter = [...listPlant]; //listPlantFilter tableau brut qui ne change pas
@@ -62,36 +71,18 @@ export class PageAccueilComponent implements OnInit {
   }
 
   onPriceFiltered(minmaxValues: MinMax) {
-    const minVal = minmaxValues.min;
-    const maxVal = minmaxValues.max;
-    //console.log(`Filtrage des prix : ${minVal}, ${maxVal}`);
-    this.filterByPrice(minVal, maxVal);
-  }
-
-  private filterByPrice(minValue: number, maxValue: number) {
-    this.listData = this.listPlantFilter.filter((product) => {
-      return (
-        parseInt(product.product_unitprice_ati) <= maxValue &&
-        parseInt(product.product_unitprice_ati) >= minValue
-      );
-    });
-    if (this.listData.length > 20) this.listData.length = 20;
-    console.log('Plantes filtrées par prix : ');
-    console.log(this.listData);
+    this.minValue = minmaxValues.min;
+    this.maxValue = minmaxValues.max;
+    this.filter();
   }
 
   rechercheCat(filterCategories: string[]) {
-    this.filtreCat = filterCategories;
-    //console.log(this.filtreCat);
-
-    if (this.filtreCat.length > 0) {
-      this.listData = this.listPlantFilter.filter((product) => {
-        return filterCategories.includes(product.product_breadcrumb_label);
-      });
-    } else if (this.filtreCat.length == 0) {
-      //console.log(this.listData);
-      this.listData = [...this.listPlantFilter];
+    if (filterCategories.length == 0) {
+      this.filtreCat = this.listCategoriesFilter;
+    } else {
+      this.filtreCat = filterCategories;
     }
+    this.filter();
   }
 
   onStarFiltered(rating: any) {
@@ -103,15 +94,26 @@ export class PageAccueilComponent implements OnInit {
   searchInput(searchEvent: any) {
     console.log(searchEvent.target.value);
     this.search = searchEvent.target.value;
-    if (this.search) {
-      this.listData = this.listPlantFilter.filter((el) => {
-        return el.product_name
-          .toLowerCase()
-          .includes(this.search.toLowerCase());
-      });
-    } else {
-      this.listData = this.listData;
-    }
+    this.filter();
+  }
+
+  private filter() {
+    console.log(`
+    Values filtered :
+    prix min : ${this.minValue}
+    prix max : ${this.maxValue}
+    catégories : ${this.filtreCat}
+    rating : ${this.rating}
+    search : ${this.search}`);
+    this.listData = this.listPlantFilter.filter((product) => {
+      return (
+        parseInt(product.product_unitprice_ati) <= this.maxValue &&
+        parseInt(product.product_unitprice_ati) >= this.minValue &&
+        this.filtreCat.includes(product.product_breadcrumb_label) &&
+        product.product_rating >= this.rating &&
+        product.product_name.toLowerCase().includes(this.search.toLowerCase())
+      );
+    });
   }
 
   triPrixPlant(event: any) {
@@ -183,10 +185,10 @@ export class PageAccueilComponent implements OnInit {
     }
     // }
   }
+
   triAvisPlant(event: any) {
     this.counterAvis++;
-    this.upDownAvis = false;
-    //console.log(this.counterAvis);
+    console.log(this.counterAvis);
     if (this.counterAvis % 2 == 0) {
       this.listData = this.listPlantFilter.sort((a, b) => {
         //console.log(a.product_price);
@@ -199,8 +201,7 @@ export class PageAccueilComponent implements OnInit {
         }
       });
     } else {
-      //console.log('mo');
-      this.upDownAvis = true;
+      console.log('mo');
       this.listData = this.listPlantFilter.sort((a, b) => {
         //console.log(a.product_price);
         if (a.product_rating < b.product_rating) {
