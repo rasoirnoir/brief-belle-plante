@@ -12,7 +12,6 @@ export class PageAccueilComponent implements OnInit {
   public listData: any[];
   public listCategoriesFilter: string[];
   public listPlantFilter: any[];
-  public search = '';
 
   counterPrix: number;
   counterAlpha: number;
@@ -26,7 +25,7 @@ export class PageAccueilComponent implements OnInit {
   private maxValue: number;
   private rating: number;
   private filtreCat: string[];
-  private 
+  public search = '';
 
   constructor(private plantouneService: PlantouneService) {
     this.listData = [];
@@ -39,6 +38,9 @@ export class PageAccueilComponent implements OnInit {
     this.upDownPrix = true;
     this.upDownAlpha = true;
     this.upDownAvis = true;
+    this.minValue = 0;
+    this.maxValue = 1000;
+    this.rating = 0;
   }
 
   ngOnInit(): void {
@@ -57,6 +59,7 @@ export class PageAccueilComponent implements OnInit {
        */
       const listUniqJsCategories = [...new Set(listAllCategories)];
       this.listCategoriesFilter = listUniqJsCategories;
+      this.filtreCat = this.listCategoriesFilter;
       this.listData = [...listPlant];
       this.listData.length = 9;
       this.listPlantFilter = [...listPlant]; //listPlantFilter tableau brut qui ne change pas
@@ -68,58 +71,49 @@ export class PageAccueilComponent implements OnInit {
   }
 
   onPriceFiltered(minmaxValues: MinMax) {
-    const minVal = minmaxValues.min;
-    const maxVal = minmaxValues.max;
-    //console.log(`Filtrage des prix : ${minVal}, ${maxVal}`);
-    this.filterByPrice(minVal, maxVal);
-  }
-
-  private filterByPrice(minValue: number, maxValue: number) {
-    this.listData = this.listPlantFilter.filter((product) => {
-      return (
-        parseInt(product.product_unitprice_ati) <= maxValue &&
-        parseInt(product.product_unitprice_ati) >= minValue
-      );
-    });
-    if (this.listData.length > 20) this.listData.length = 20;
-    console.log('Plantes filtrées par prix : ');
-    console.log(this.listData);
+    this.minValue = minmaxValues.min;
+    this.maxValue = minmaxValues.max;
+    this.filter();
   }
 
   rechercheCat(filterCategories: string[]) {
-    this.filtreCat = filterCategories;
-    //console.log(this.filtreCat);
-
-    if (this.filtreCat.length > 0) {
-      this.listData = this.listPlantFilter.filter((product) => {
-        return filterCategories.includes(product.product_breadcrumb_label);
-      });
-    } else if (this.filtreCat.length == 0) {
-      this.listData = [...this.listPlantFilter];
+    if (filterCategories.length == 0) {
+      this.filtreCat = this.listCategoriesFilter;
+    } else {
+      this.filtreCat = filterCategories;
     }
+    this.filter();
   }
 
   onStarFiltered(rating: any) {
-    this.listData = this.listPlantFilter.filter((product) => {
-      return product.product_rating >= rating;
-    });
+    this.rating = rating;
+    this.filter();
   }
 
   searchInput(searchEvent: any) {
     console.log(searchEvent.target.value);
     this.search = searchEvent.target.value;
-    if (this.search) {
-      this.listData = this.listPlantFilter.filter((el) => {
-        return el.product_name
-          .toLowerCase()
-          .includes(this.search.toLowerCase());
-      });
-    } else {
-      this.listData = this.listData;
-    }
+    this.filter();
   }
 
-  private filter() {}
+  private filter() {
+    console.log(`
+    Values filtered :
+    prix min : ${this.minValue}
+    prix max : ${this.maxValue}
+    catégories : ${this.filtreCat}
+    rating : ${this.rating}
+    search : ${this.search}`);
+    this.listData = this.listPlantFilter.filter((product) => {
+      return (
+        parseInt(product.product_unitprice_ati) <= this.maxValue &&
+        parseInt(product.product_unitprice_ati) >= this.minValue &&
+        this.filtreCat.includes(product.product_breadcrumb_label) &&
+        product.product_rating >= this.rating &&
+        product.product_name.toLowerCase().includes(this.search.toLowerCase())
+      );
+    });
+  }
 
   triPrixPlant(event: any) {
     // const text = event.target.innerText;
@@ -192,34 +186,31 @@ export class PageAccueilComponent implements OnInit {
   }
 
   triAvisPlant(event: any) {
-      this.counterAvis++;
-      console.log(this.counterAvis);
-      if (this.counterAvis % 2 == 0) {
-        this.listData = this.listPlantFilter.sort((a, b) => {
-          //console.log(a.product_price);
-          if (b.product_rating < a.product_rating) {
-            return -1;
-          } else if (b.product_rating > a.product_rating) {
-            return 1;
-          } else {
-            return 0;
-          }
-        });
-      } else {
-        console.log('mo');
-        this.listData = this.listPlantFilter.sort((a, b) => {
-          //console.log(a.product_price);
-          if (a.product_rating < b.product_rating) {
-            return -1;
-          } else if (a.product_rating > b.product_rating) {
-            return 1;
-          } else {
-            return 0;
-          }
-        });
-      }
-
-
-
+    this.counterAvis++;
+    console.log(this.counterAvis);
+    if (this.counterAvis % 2 == 0) {
+      this.listData = this.listPlantFilter.sort((a, b) => {
+        //console.log(a.product_price);
+        if (b.product_rating < a.product_rating) {
+          return -1;
+        } else if (b.product_rating > a.product_rating) {
+          return 1;
+        } else {
+          return 0;
+        }
+      });
+    } else {
+      console.log('mo');
+      this.listData = this.listPlantFilter.sort((a, b) => {
+        //console.log(a.product_price);
+        if (a.product_rating < b.product_rating) {
+          return -1;
+        } else if (a.product_rating > b.product_rating) {
+          return 1;
+        } else {
+          return 0;
+        }
+      });
+    }
   }
 }
