@@ -69,9 +69,9 @@ export class PageAccueilComponent implements OnInit {
         parseInt(product.product_unitprice_ati) >= minValue
       );
     });
-    this.listData.length = 20;
-    //console.log('Plantes filtrées par prix : ');
-    //console.log(this.listData);
+    if (this.listData.length > 20) this.listData.length = 20;
+    console.log('Plantes filtrées par prix : ');
+    console.log(this.listData);
   }
 
   rechercheCat(filterCategories: string[]) {
@@ -89,8 +89,6 @@ export class PageAccueilComponent implements OnInit {
   }
 
   onStarFiltered(rating: any) {
-    //console.log("Page d'accueil : onStarFiltered : ");
-    //console.log('rating : ' + rating);
     this.listData = this.listPlantFilter.filter((product) => {
       return product.product_rating == rating;
     });
