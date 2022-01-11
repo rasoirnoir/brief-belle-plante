@@ -54,7 +54,7 @@ export class PageAccueilComponent implements OnInit {
   onPriceFiltered(minmaxValues: MinMax) {
     const minVal = minmaxValues.min;
     const maxVal = minmaxValues.max;
-    console.log(`Filtrage des prix : ${minVal}, ${maxVal}`);
+    //console.log(`Filtrage des prix : ${minVal}, ${maxVal}`);
     this.filterByPrice(minVal, maxVal);
   }
 
@@ -66,8 +66,8 @@ export class PageAccueilComponent implements OnInit {
       );
     });
     this.listData.length = 20;
-    console.log('Plantes filtrées par prix : ');
-    console.log(this.listData);
+    //console.log('Plantes filtrées par prix : ');
+    //console.log(this.listData);
   }
 
   rechercheCat(filterCategories: string[]) {
