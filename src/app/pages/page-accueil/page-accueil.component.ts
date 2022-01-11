@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { MinMax } from 'src/app/components/filter-side-bar/filter-side-bar.component';
 import { PlantouneService } from 'src/app/services/plantoune.service';
 import * as _ from 'underscore';
-import { any, filter } from 'underscore';
 
 @Component({
   selector: 'app-page-accueil',
@@ -14,9 +13,7 @@ export class PageAccueilComponent implements OnInit {
   public listCategoriesFilter: string[];
   public listPlantFilter: any[];
   public search = '';
-  public filtreCat: string[];
 
-  public filteredData: any[];
   counterPrix: number;
   counterAlpha: number;
   counterAvis: number;
@@ -24,12 +21,18 @@ export class PageAccueilComponent implements OnInit {
   upDownAlpha: boolean;
   upDownAvis: boolean;
 
+  //Critères de filtre
+  private minValue: number;
+  private maxValue: number;
+  private rating: number;
+  private filtreCat: string[];
+  private 
+
   constructor(private plantouneService: PlantouneService) {
     this.listData = [];
     this.listCategoriesFilter = [];
     this.listPlantFilter = [];
     this.filtreCat = [];
-    this.filteredData = [];
     this.counterPrix = 0;
     this.counterAlpha = 0;
     this.counterAvis = 0;
@@ -57,7 +60,6 @@ export class PageAccueilComponent implements OnInit {
       this.listData = [...listPlant];
       this.listData.length = 9;
       this.listPlantFilter = [...listPlant]; //listPlantFilter tableau brut qui ne change pas
-      this.filteredData = [...listPlant];
     });
   }
 
@@ -73,29 +75,15 @@ export class PageAccueilComponent implements OnInit {
   }
 
   private filterByPrice(minValue: number, maxValue: number) {
-    // this.listData = this.listPlantFilter.filter((product) => {
-    //   return (
-    //     parseInt(product.product_unitprice_ati) <= maxValue &&
-    //     parseInt(product.product_unitprice_ati) >= minValue
-    //   );
-    // });
-    // if (this.listData.length > 20) this.listData.length = 20;
-    // console.log('Plantes filtrées par prix : ');
-    // console.log(this.listData);
-    let tmpArray = [];
-    tmpArray = this.listPlantFilter.filter((product) => {
+    this.listData = this.listPlantFilter.filter((product) => {
       return (
         parseInt(product.product_unitprice_ati) <= maxValue &&
         parseInt(product.product_unitprice_ati) >= minValue
       );
     });
-    this.filteredData = tmpArray.filter((value) =>
-      this.filteredData.includes(value)
-    );
-    this.listData = [...this.filteredData];
-    // if (this.listData.length > 20) this.listData.length = 20;
-    // console.log('Plantes filtrées par prix : ');
-    // console.log(this.listData);
+    if (this.listData.length > 20) this.listData.length = 20;
+    console.log('Plantes filtrées par prix : ');
+    console.log(this.listData);
   }
 
   rechercheCat(filterCategories: string[]) {
@@ -130,6 +118,8 @@ export class PageAccueilComponent implements OnInit {
       this.listData = this.listData;
     }
   }
+
+  private filter() {}
 
   triPrixPlant(event: any) {
     // const text = event.target.innerText;
