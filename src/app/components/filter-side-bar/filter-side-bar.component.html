@@ -12,8 +12,9 @@
                 <input 
                     class="form-check-input" 
                     type="checkbox" 
-                    value="testcategory" 
-                    id="checkBoxCategory{{indexCat}}">
+                    value={{category}}
+                    id="checkBoxCategory{{indexCat}}"
+                    (click)="rechercheCategories($event)">
 
                 <label class="form-check-label" for="checkBoxCategory{{indexCat}}">
                     {{ category }}

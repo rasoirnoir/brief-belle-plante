@@ -10,10 +10,17 @@ import * as _ from 'underscore';
 export class PageAccueilComponent implements OnInit {
   public listData: any[];
   public listCategoriesFilter: string[];
+  public listPlantFilter : any[];
+
+ 
 
   constructor(private plantouneService: PlantouneService) {
     this.listData = [];
     this.listCategoriesFilter = [];
+    this.listPlantFilter = [];
+    
+  
+    
    }
 
    /**
@@ -32,16 +39,16 @@ export class PageAccueilComponent implements OnInit {
 
     this.plantouneService.getData().subscribe(
       (listPlant: any[]) => {
-        console.log(listPlant);
+        // console.log(listPlant);
 
         /**
          * Technique avec Underscore JS pour recupérer les catégories uniques de nos plantes
          */
         const listAllCategories = listPlant.map(product => product.product_breadcrumb_label);
-        console.log(listAllCategories);
+        // console.log(listAllCategories);
         
         const listUniqCategories = _.uniq(listAllCategories) 
-        console.log(listUniqCategories);
+        // console.log(listUniqCategories);
         
 
         /**
@@ -49,11 +56,17 @@ export class PageAccueilComponent implements OnInit {
          */
 
         const listUniqJsCategories = [...new Set(listAllCategories)];
-        console.log(listUniqJsCategories);
+        //  console.log(listUniqJsCategories);
 
         this.listCategoriesFilter = listUniqJsCategories;
-        this.listData = listPlant;
+        this.listData = [...listPlant];
         this.listData.length = 9;
+        // console.log(this.listCategoriesFilter);
+        this.listPlantFilter = [...listPlant];//listPlantFilter tableau brut qui ne change pas
+        
+      
+        
+        
       }
     )
   }
@@ -61,5 +74,23 @@ export class PageAccueilComponent implements OnInit {
   onEventLike() {
     this.plantouneService.plantLiked$.next('')
   }
+
+  
+  rechercheCat(filterCategories:string[]){
+    // console.log(listCategories);
+    this.listData= this.listPlantFilter.filter(product => {
+      return filterCategories.includes(product.product_breadcrumb_label);
+    })
+    // console.log(this.listPlantFilter);
+    
+    
+    
+
+    
+    
+  }
+
+ 
+
 
 }
