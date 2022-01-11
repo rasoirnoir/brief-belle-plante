@@ -66,8 +66,8 @@ export class PageAccueilComponent implements OnInit {
     });
   }
 
-  onEventLike() {
-    this.plantouneService.plantLiked$.next('');
+  onEventLike(isLiked : boolean) {
+    this.plantouneService.plantLiked$.next(isLiked);
   }
 
   onPriceFiltered(minmaxValues: MinMax) {

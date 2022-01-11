@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container" *ngIf="plantDetails">
   <div class="row my-5">
     <img src="{{plantDetails.product_url_picture}}" class="col-sm-6" style="width: 24rem;" alt="Image de {{ plantDetails.product_name }}">
     <div class="col-sm-6">
@@ -9,7 +9,7 @@
         <div>Quantité restante : {{plantDetails.product_qty}}</div>
       </div>
       <div class="card-content">
-        <app-avis-bar></app-avis-bar>
+        <app-avis-bar [initialRating]="plantDetails.product_rating"></app-avis-bar>
       </div>
       <div>
         <p style="color: #403F3F;">

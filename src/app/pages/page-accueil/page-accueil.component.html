@@ -52,7 +52,7 @@
       </div>
       <ng-template #productList>
         <div class="col" *ngFor="let product of listData">
-          <app-card-plante [plant]="product" (clickLike)="onEventLike()">
+          <app-card-plante [plant]="product" (clickLike)="onEventLike($event)">
           </app-card-plante>
         </div>
       </ng-template>

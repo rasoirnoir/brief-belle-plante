@@ -13,8 +13,9 @@ export class PageDetailsComponent implements OnInit {
 
   plantDetails: any | undefined;
 
+
   constructor(private route: ActivatedRoute, private plantouneService: PlantouneService) {
-    this.plantDetails = {};
+
 
    }
 
@@ -31,7 +32,7 @@ export class PageDetailsComponent implements OnInit {
   this.plantouneService.getPlantById(productIdFromRoute).subscribe
   (response =>{
   this.plantDetails=response[0];
-  console.log(this.plantDetails); //console log objet vide
+  console.log(this.plantDetails);
   })
 }
 

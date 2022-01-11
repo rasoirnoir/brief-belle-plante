@@ -8,14 +8,14 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 export class AvisBarComponent implements OnInit {
   starStates: { stateSelectedUser: boolean; stateHoverUser: boolean }[];
   @Output() starClicked = new EventEmitter<any[]>();
-  @Input() initialRating: string = '0';
+  @Input() initialRating: number = 0;
 
   constructor() {
     this.starStates = [];
   }
 
   ngOnInit(): void {
-    const numInitRating = parseInt(this.initialRating);
+    const numInitRating = this.initialRating;
     for (let index = 0; index < 5; index++) {
       if (index < numInitRating) {
         this.starStates.push({
