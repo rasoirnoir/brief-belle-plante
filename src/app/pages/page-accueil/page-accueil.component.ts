@@ -13,8 +13,8 @@ export class PageAccueilComponent implements OnInit {
   public listData: any[];
   public listCategoriesFilter: string[];
   public listPlantFilter: any[];
-  public search= ''; 
-  public filtreCat : string[];
+  public search = '';
+  public filtreCat: string[];
 
   constructor(private plantouneService: PlantouneService) {
     this.listData = [];
@@ -70,30 +70,35 @@ export class PageAccueilComponent implements OnInit {
 
   rechercheCat(filterCategories: string[]) {
     this.filtreCat = filterCategories;
-      console.log(this.filtreCat);
-    
-    if(this.filtreCat.length > 0){
-    this.listData = this.listPlantFilter.filter((product) => {
-      return filterCategories.includes(product.product_breadcrumb_label)
-    })
-  }else if(this.filtreCat.length == 0){
-     console.log(this.listData);
-     this.listData = [...this.listPlantFilter];
-  }
+    console.log(this.filtreCat);
+
+    if (this.filtreCat.length > 0) {
+      this.listData = this.listPlantFilter.filter((product) => {
+        return filterCategories.includes(product.product_breadcrumb_label);
+      });
+    } else if (this.filtreCat.length == 0) {
+      console.log(this.listData);
+      this.listData = [...this.listPlantFilter];
+    }
   }
 
-  onStarFiltered(starArray: any) {
-    console.log(starArray);
-    this.listData = this.listPlantFilter.filter((product) => {});
+  onStarFiltered(rating: any) {
+    console.log("Page d'accueil : onStarFiltered : ");
+    console.log('rating : ' + rating);
+    this.listData = this.listPlantFilter.filter((product) => {
+      return product.product_rating == rating;
+    });
   }
 
   searchInput(searchEvent: any) {
-    console.log(searchEvent.target.value)
-    this.search = searchEvent.target.value
-    if(this.search) {
+    console.log(searchEvent.target.value);
+    this.search = searchEvent.target.value;
+    if (this.search) {
       this.listData = this.listPlantFilter.filter((el) => {
-        return el.product_name.toLowerCase().includes(this.search.toLowerCase())
-      })
+        return el.product_name
+          .toLowerCase()
+          .includes(this.search.toLowerCase());
+      });
     } else {
       this.listData = this.listData;
     }
