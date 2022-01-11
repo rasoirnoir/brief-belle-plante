@@ -1,5 +1,6 @@
 <div class="d-flex align-items-stretch">
-    <app-filter-side-bar [listCategories]="listCategoriesFilter" (idCategories)="rechercheCat($event)"></app-filter-side-bar>
+    <app-filter-side-bar [listCategories]="listCategoriesFilter" (idCategories)="rechercheCat($event)" (filterPrice)="onPriceFiltered($event)"
+    (filterStar)="onStarFiltered($event)"></app-filter-side-bar>
 
     <div class="custom-main container p-3">
         <input class="form-control" 
