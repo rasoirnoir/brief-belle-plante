@@ -18,6 +18,9 @@ export class PageAccueilComponent implements OnInit {
   counterPrix: number;
   counterAlpha: number;
   counterAvis: number;
+  upDownPrix: boolean;
+  upDownAlpha: boolean;
+  upDownAvis: boolean;
 
   constructor(private plantouneService: PlantouneService) {
     this.listData = [];
@@ -27,6 +30,9 @@ export class PageAccueilComponent implements OnInit {
     this.counterPrix = 0;
     this.counterAlpha = 0;
     this.counterAvis = 0;
+    this.upDownPrix = true;
+    this.upDownAlpha = true;
+    this.upDownAvis = true;
   }
 
   ngOnInit(): void {
@@ -109,70 +115,75 @@ export class PageAccueilComponent implements OnInit {
   }
 
   triPrixPlant(event: any) {
-    const text = event.target.innerText;
-    console.log(text);
-    if (text == 'Prix') {
-      this.counterPrix++;
-      console.log(this.counterPrix);
-      if (this.counterPrix % 2 == 0) {
-        console.log('lol');
-        this.listData = this.listPlantFilter.sort((a, b) => {
-          //console.log(a.product_price);
-          if (b.product_price < a.product_price) {
-            return -1;
-          } else if (b.product_price > a.product_price) {
-            return 1;
-          } else {
-            return 0;
-          }
-        });
-      } else {
-        console.log('mo');
-        this.listData = this.listPlantFilter.sort((a, b) => {
-          //console.log(a.product_price);
-          if (a.product_price < b.product_price) {
-            return -1;
-          } else if (a.product_price > b.product_price) {
-            return 1;
-          } else {
-            return 0;
-          }
-        });
-      }
+    // const text = event.target.innerText;
+    // console.log(text);
+    // if (text == 'Prix') {
+    this.counterPrix++;
+    console.log(this.counterPrix);
+    if (this.counterPrix % 2 == 0) {
+      this.upDownPrix = false;
+      console.log('lol');
+      this.listData = this.listPlantFilter.sort((a, b) => {
+        console.log(parseFloat(a.product_price));
+        if (parseFloat(b.product_price) < parseFloat(a.product_price)) {
+          return -1;
+        } else if (parseFloat(b.product_price) > parseFloat(a.product_price)) {
+          return 1;
+        } else {
+          return 0;
+        }
+      });
+    } else {
+      console.log('mo');
+      this.listData = this.listPlantFilter.sort((a, b) => {
+        this.upDownPrix = true;
+        //console.log(a.product_price);
+        if (parseFloat(a.product_price) < parseFloat(b.product_price)) {
+          return -1;
+        } else if (parseFloat(a.product_price) > parseFloat(b.product_price)) {
+          return 1;
+        } else {
+          return 0;
+        }
+      });
     }
+    // }
   }
   triAlphaPlant(event: any) {
-    const text = event.target.innerText;
-    console.log(text);
-    if (text == 'Ordre Alpha') {
-      this.counterAlpha++;
-      console.log(this.counterAlpha);
-      if (this.counterAlpha % 2 == 0) {
-        this.listData = this.listPlantFilter.sort((a, b) => {
-          //console.log(a.product_price);
-          if (b.product_name < a.product_name) {
-            return -1;
-          } else if (b.product_name > a.product_name) {
-            return 1;
-          } else {
-            return 0;
-          }
-        });
-      } else {
-        console.log('mo');
-        this.listData = this.listPlantFilter.sort((a, b) => {
-          //console.log(a.product_price);
-          if (a.product_name < b.product_name) {
-            return -1;
-          } else if (a.product_name > b.product_name) {
-            return 1;
-          } else {
-            return 0;
-          }
-        });
-      }
+    // const text = event.target.innerText;
+    // console.log(text);
+    // if (text == 'Ordre Alpha') {
+    this.counterAlpha++;
+    this.upDownAlpha = false;
+    console.log(this.counterAlpha);
+    if (this.counterAlpha % 2 == 0) {
+      this.listData = this.listPlantFilter.sort((a, b) => {
+        //console.log(a.product_price);
+        if (b.product_name < a.product_name) {
+          return -1;
+        } else if (b.product_name > a.product_name) {
+          return 1;
+        } else {
+          return 0;
+        }
+      });
+    } else {
+      console.log('mo');
+      this.upDownAlpha = true;
+      this.listData = this.listPlantFilter.sort((a, b) => {
+        //console.log(a.product_price);
+        if (a.product_name < b.product_name) {
+          return -1;
+        } else if (a.product_name > b.product_name) {
+          return 1;
+        } else {
+          return 0;
+        }
+      });
     }
+    // }
   }
+
   triAvisPlant(event: any) {
       this.counterAvis++;
       console.log(this.counterAvis);
