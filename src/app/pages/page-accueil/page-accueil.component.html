@@ -17,9 +17,24 @@
 
     <div class="py-3">
       Trier par :
-      <button class="btn btn-outline-success btn-sm me-2">Prix</button>
-      <button class="btn btn-outline-success btn-sm me-2">Ordre Alpha</button>
-      <button class="btn btn-outline-success btn-sm me-2">Avis</button>
+      <button
+        class="btn btn-outline-success btn-sm me-2"
+        (click)="triPrixPlant($event)"
+      >
+        Prix
+      </button>
+      <button
+        class="btn btn-outline-success btn-sm me-2"
+        (click)="triAlphaPlant($event)"
+      >
+        Ordre Alpha
+      </button>
+      <button
+        class="btn btn-outline-success btn-sm me-2"
+        (click)="triAvisPlant($event)"
+      >
+        Avis
+      </button>
     </div>
 
     <div class="row">
