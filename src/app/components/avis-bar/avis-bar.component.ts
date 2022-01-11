@@ -30,6 +30,7 @@ export class AvisBarComponent implements OnInit {
         });
       }
     }
+    this.onMouseLeave();
   }
 
   onMouseOver(index: number) {
