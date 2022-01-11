@@ -12,7 +12,7 @@ export class PageAccueilComponent implements OnInit {
   public listData: any[];
   public listCategoriesFilter: string[];
   public listPlantFilter: any[];
-  public search= ''; 
+  public search = '';
 
   constructor(private plantouneService: PlantouneService) {
     this.listData = [];
@@ -71,18 +71,23 @@ export class PageAccueilComponent implements OnInit {
     });
   }
 
-  onStarFiltered(starArray: any) {
-    console.log(starArray);
-    this.listData = this.listPlantFilter.filter((product) => {});
+  onStarFiltered(rating: any) {
+    console.log("Page d'accueil : onStarFiltered : ");
+    console.log('rating : ' + rating);
+    this.listData = this.listPlantFilter.filter((product) => {
+      return product.product_rating == rating;
+    });
   }
 
   searchInput(searchEvent: any) {
-    console.log(searchEvent.target.value)
-    this.search = searchEvent.target.value
-    if(this.search) {
+    console.log(searchEvent.target.value);
+    this.search = searchEvent.target.value;
+    if (this.search) {
       this.listData = this.listPlantFilter.filter((el) => {
-        return el.product_name.toLowerCase().includes(this.search.toLowerCase())
-      })
+        return el.product_name
+          .toLowerCase()
+          .includes(this.search.toLowerCase());
+      });
     } else {
       this.listData = this.listData;
     }

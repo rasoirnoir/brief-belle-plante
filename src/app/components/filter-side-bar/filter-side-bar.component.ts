@@ -9,7 +9,7 @@ export class FilterSideBarComponent implements OnInit {
   @Input() listCategories: string[];
   @Output() idCategories = new EventEmitter<string[]>();
   @Output() filterPrice = new EventEmitter();
-  @Output() filterStar = new EventEmitter<any[]>();
+  @Output() filterStar = new EventEmitter<number>();
   starFilter: any[];
   categorieTab: string[];
 
@@ -52,12 +52,21 @@ export class FilterSideBarComponent implements OnInit {
 
   onAvisClick() {
     console.log('Avis click :)');
-    this.filterStar.emit(this.starFilter);
+    //this.filterStar.emit(this.starFilter);
+    this.filterStar.emit(this.getSelectedRating());
   }
 
   onStarClick(starArray: any) {
-    console.log(starArray);
     this.starFilter = starArray;
+  }
+
+  private getSelectedRating(): number {
+    for (let index = 0; index < this.starFilter.length; index++) {
+      if (!this.starFilter[index].stateSelectedUser) {
+        return index;
+      }
+    }
+    return 5;
   }
 }
 

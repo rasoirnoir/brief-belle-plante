@@ -12,8 +12,11 @@ export class AvisBarComponent implements OnInit {
 
   constructor() {
     this.starStates = [];
-    const numInitRating = parseInt(this.initialRating);
+  }
 
+  ngOnInit(): void {
+    const numInitRating = parseInt(this.initialRating);
+    console.log('Initial rating : ' + numInitRating);
     for (let index = 0; index < 5; index++) {
       if (index < numInitRating) {
         this.starStates.push({
@@ -28,8 +31,6 @@ export class AvisBarComponent implements OnInit {
       }
     }
   }
-
-  ngOnInit(): void {}
 
   onMouseOver(index: number) {
     console.log('star over', index);
