@@ -15,14 +15,18 @@ export class PageAccueilComponent implements OnInit {
   public listPlantFilter: any[];
   public search = '';
   public filtreCat: string[];
-  counter: number;
+  counterPrix: number;
+  counterAlpha: number;
+  counterAvis: number;
 
   constructor(private plantouneService: PlantouneService) {
     this.listData = [];
     this.listCategoriesFilter = [];
     this.listPlantFilter = [];
     this.filtreCat = [];
-    this.counter = 0;
+    this.counterPrix = 0;
+    this.counterAlpha = 0;
+    this.counterAvis = 0;
   }
 
   ngOnInit(): void {
@@ -110,9 +114,9 @@ export class PageAccueilComponent implements OnInit {
     const text = event.target.innerText;
     console.log(text);
     if (text == 'Prix') {
-      this.counter++;
-      console.log(this.counter);
-      if (this.counter % 2 == 0) {
+      this.counterPrix++;
+      console.log(this.counterPrix);
+      if (this.counterPrix % 2 == 0) {
         console.log('lol');
         this.listData = this.listPlantFilter.sort((a, b) => {
           //console.log(a.product_price);
@@ -143,10 +147,9 @@ export class PageAccueilComponent implements OnInit {
     const text = event.target.innerText;
     console.log(text);
     if (text == 'Ordre Alpha') {
-      this.counter++;
-      console.log(this.counter);
-      if (this.counter % 2 == 0) {
-        console.log('lol');
+      this.counterAlpha++;
+      console.log(this.counterAlpha);
+      if (this.counterAlpha % 2 == 0) {
         this.listData = this.listPlantFilter.sort((a, b) => {
           //console.log(a.product_price);
           if (b.product_name < a.product_name) {
