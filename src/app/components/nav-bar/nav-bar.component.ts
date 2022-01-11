@@ -17,9 +17,14 @@ export class NavBarComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.subPlantLiked = this.plantouneService.plantLiked$.subscribe(
-      () => {
+      (isLiked) => {
         console.log('Get new event from Subject');
-        this.likeCounter ++;
+        if(isLiked){
+          this.likeCounter ++;
+        } else{
+          this.likeCounter--;
+        }
+
       }
     )
   }

@@ -1,7 +1,7 @@
 <div class="plant card mb-4" style="width: 14rem">
   <app-icon
     class="like"
-    [iconName]="'heart'"
+    [iconName]="isLiked ? 'heart-fill' : 'heart'"
     [iconColor]="'#e35d6a'"
     (click)="onClickLike()"
   ></app-icon>

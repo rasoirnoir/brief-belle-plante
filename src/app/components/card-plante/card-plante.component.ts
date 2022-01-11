@@ -7,7 +7,8 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 })
 export class CardPlanteComponent implements OnInit {
   @Input() plant: any;
-  @Output() clickLike = new EventEmitter();
+  @Output() clickLike = new EventEmitter<boolean>();
+  isLiked : boolean = false;
 
   constructor() {}
 
@@ -15,6 +16,8 @@ export class CardPlanteComponent implements OnInit {
 
   onClickLike() {
     console.log('click');
-    this.clickLike.emit();
+    this.isLiked = !this.isLiked;
+    this.clickLike.emit(this.isLiked);
+
   }
 }
