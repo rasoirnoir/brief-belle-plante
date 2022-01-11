@@ -12,7 +12,7 @@ export class PageAccueilComponent implements OnInit {
   public listData: any[];
   public listCategoriesFilter: string[];
   public listPlantFilter: any[];
-  public search= ''; 
+  public search = '';
 
   constructor(private plantouneService: PlantouneService) {
     this.listData = [];
@@ -66,9 +66,15 @@ export class PageAccueilComponent implements OnInit {
   }
 
   rechercheCat(filterCategories: string[]) {
-    this.listData = this.listPlantFilter.filter((product) => {
-      return filterCategories.includes(product.product_breadcrumb_label);
-    });
+    if (filterCategories.length > 0) {
+      // console.log('a', filterCategories.length);
+      this.listData = this.listPlantFilter.filter((product) => {
+        return filterCategories.includes(product.product_breadcrumb_label);
+      });
+    } else if (filterCategories.length == 0) {
+      // console.log('lol', filterCategories.length);
+      this.listData = [...this.listPlantFilter];
+    }
   }
 
   onStarFiltered(starArray: any) {
@@ -77,14 +83,45 @@ export class PageAccueilComponent implements OnInit {
   }
 
   searchInput(searchEvent: any) {
-    console.log(searchEvent.target.value)
-    this.search = searchEvent.target.value
-    if(this.search) {
+    console.log(searchEvent.target.value);
+    this.search = searchEvent.target.value;
+    if (this.search) {
       this.listData = this.listPlantFilter.filter((el) => {
-        return el.product_name.toLowerCase().includes(this.search.toLowerCase())
-      })
+        return el.product_name
+          .toLowerCase()
+          .includes(this.search.toLowerCase());
+      });
     } else {
       this.listData = this.listData;
+    }
+  }
+
+  triPlant(event: any) {
+    const text = event.target.innerText;
+    console.log(text);
+    if (text == 'Prix') {
+      console.log('mo');
+      this.listData = this.listPlantFilter.sort((a, b) => {
+        console.log(a.product_price);
+        if (a.product_price < b.product_price) {
+          return -1;
+        } else if (a.product_price > b.product_price) {
+          return 1;
+        } else {
+          return 0;
+        }
+      });
+    }
+    if (text == 'Ordre Alpha') {
+      this.listData = this.listPlantFilter.sort((a, b) => {
+        if (a.product_name < b.product_name) {
+          return -1;
+        } else if (a.product_name > b.product_name) {
+          return 1;
+        } else {
+          return 0;
+        }
+      });
     }
   }
 }
