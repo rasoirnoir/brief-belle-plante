@@ -35,7 +35,7 @@ export class FilterSideBarComponent implements OnInit {
     this.filterStar.emit(this.starFilter);
   }
 
-  onStarClick(starArray: any[]) {
+  onStarClick(starArray: any) {
     console.log(starArray);
     this.starFilter = starArray;
   }

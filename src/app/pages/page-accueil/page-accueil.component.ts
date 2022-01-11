@@ -83,10 +83,8 @@ export class PageAccueilComponent implements OnInit {
     console.log(this.listData);
   }
 
-  onStarFiltered(starArray: any[]) {
+  onStarFiltered(starArray: any) {
     console.log(starArray);
-    this.listData = this.listPlantFilter.filter((product) => {
-      
-    });
+    this.listData = this.listPlantFilter.filter((product) => {});
   }
 }
