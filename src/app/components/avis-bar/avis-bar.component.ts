@@ -16,7 +16,6 @@ export class AvisBarComponent implements OnInit {
 
   ngOnInit(): void {
     const numInitRating = parseInt(this.initialRating);
-    console.log('Initial rating : ' + numInitRating);
     for (let index = 0; index < 5; index++) {
       if (index < numInitRating) {
         this.starStates.push({
