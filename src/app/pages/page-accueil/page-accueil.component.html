@@ -22,18 +22,27 @@
         (click)="triPrixPlant($event)"
       >
         Prix
+        <app-icon
+          [iconName]="upDownPrix ? 'caret-up-square' : 'caret-down-square'"
+        ></app-icon>
       </button>
       <button
         class="btn btn-outline-success btn-sm me-2"
         (click)="triAlphaPlant($event)"
       >
         Ordre Alpha
+        <app-icon
+          [iconName]="upDownAlpha ? 'caret-up-square' : 'caret-down-square'"
+        ></app-icon>
       </button>
       <button
         class="btn btn-outline-success btn-sm me-2"
         (click)="triAvisPlant($event)"
       >
         Avis
+        <app-icon
+          [iconName]="upDownAvis ? 'caret-up-square' : 'caret-down-square'"
+        ></app-icon>
       </button>
     </div>
 
