@@ -11,53 +11,52 @@ import * as _ from 'underscore';
 export class PageAccueilComponent implements OnInit {
   public listData: any[];
   public listCategoriesFilter: string[];
-  // public listDataFilteredByPrice: any[];
-  public listPlantFilter: any[];
+  public listPlantFilter : any[];
 
   constructor(private plantouneService: PlantouneService) {
     this.listData = [];
     this.listCategoriesFilter = [];
-    // this.listDataFilteredByPrice = [];
     this.listPlantFilter = [];
-  }
-
-  /**
-   * equivalent de la ligne du dessus
-   *
-   * plantouneService;
-   *
-   * constructor(plantouneService: PlantouneService) {
-   *   this.plantouneService = plantouneService;
-   * }
-   */
+    
+  
+    
+   }
 
   ngOnInit(): void {
     this.plantouneService.getData().subscribe((listPlant: any[]) => {
       console.log(listPlant);
 
-      /**
-       * Technique avec Underscore JS pour recupérer les catégories uniques de nos plantes
-       */
-      const listAllCategories = listPlant.map(
-        (product) => product.product_breadcrumb_label
-      );
-      console.log(listAllCategories);
+    this.plantouneService.getData().subscribe(
+      (listPlant: any[]) => {
+        // console.log(listPlant);
 
-      const listUniqCategories = _.uniq(listAllCategories);
-      console.log(listUniqCategories);
-
+        /**
+         * Technique avec Underscore JS pour recupérer les catégories uniques de nos plantes
+         */
+        const listAllCategories = listPlant.map(product => product.product_breadcrumb_label);
+        // console.log(listAllCategories);
+        
+        const listUniqCategories = _.uniq(listAllCategories) 
+        // console.log(listUniqCategories);
+        
       /**
        * Technique native JS pour recupérer les catégories uniques de nos plantes
        */
 
-      const listUniqJsCategories = [...new Set(listAllCategories)];
-      console.log(listUniqJsCategories);
+        const listUniqJsCategories = [...new Set(listAllCategories)];
+        //  console.log(listUniqJsCategories);
 
-      // this.listCategoriesFilter = listUniqJsCategories;
-      this.listData = [...listPlant];
-      this.listPlantFilter = [...this.listData];
-      this.listData.length = 9;
-    });
+        this.listCategoriesFilter = listUniqJsCategories;
+        this.listData = [...listPlant];
+        this.listData.length = 9;
+        // console.log(this.listCategoriesFilter);
+        this.listPlantFilter = [...listPlant];//listPlantFilter tableau brut qui ne change pas
+        
+      
+        
+        
+      }
+    )
   }
 
   onEventLike() {
@@ -83,6 +82,13 @@ export class PageAccueilComponent implements OnInit {
     console.log(this.listData);
   }
 
+  rechercheCat(filterCategories:string[]){
+    // console.log(listCategories);
+    this.listData= this.listPlantFilter.filter(product => {
+      return filterCategories.includes(product.product_breadcrumb_label);
+    })
+  }
+}
   onStarFiltered(starArray: any) {
     console.log(starArray);
     this.listData = this.listPlantFilter.filter((product) => {});
