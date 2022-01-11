@@ -96,7 +96,7 @@ export class PageAccueilComponent implements OnInit {
 
   onStarFiltered(rating: any) {
     this.listData = this.listPlantFilter.filter((product) => {
-      return product.product_rating == rating;
+      return product.product_rating >= rating;
     });
   }
 
