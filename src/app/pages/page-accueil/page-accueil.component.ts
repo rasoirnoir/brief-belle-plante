@@ -12,6 +12,7 @@ export class PageAccueilComponent implements OnInit {
   public listData: any[];
   public listCategoriesFilter: string[];
   public listPlantFilter: any[];
+  public search= ''; 
 
   constructor(private plantouneService: PlantouneService) {
     this.listData = [];
@@ -73,5 +74,17 @@ export class PageAccueilComponent implements OnInit {
   onStarFiltered(starArray: any) {
     console.log(starArray);
     this.listData = this.listPlantFilter.filter((product) => {});
+  }
+
+  searchInput(searchEvent: any) {
+    console.log(searchEvent.target.value)
+    this.search = searchEvent.target.value
+    if(this.search) {
+      this.listData = this.listPlantFilter.filter((el) => {
+        return el.product_name.toLowerCase().includes(this.search.toLowerCase())
+      })
+    } else {
+      this.listData = this.listData;
+    }
   }
 }
