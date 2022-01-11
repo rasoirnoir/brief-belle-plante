@@ -61,7 +61,7 @@ export class PageAccueilComponent implements OnInit {
       this.listCategoriesFilter = listUniqJsCategories;
       this.filtreCat = this.listCategoriesFilter;
       this.listData = [...listPlant];
-      this.listData.length = 9;
+      // this.listData.length = 9;
       this.listPlantFilter = [...listPlant]; //listPlantFilter tableau brut qui ne change pas
     });
   }
@@ -124,7 +124,7 @@ export class PageAccueilComponent implements OnInit {
     if (this.counterPrix % 2 == 0) {
       this.upDownPrix = false;
       console.log('lol');
-      this.listData = this.listPlantFilter.sort((a, b) => {
+      this.listData = this.listData.sort((a, b) => {
         console.log(parseFloat(a.product_price));
         if (parseFloat(b.product_price) < parseFloat(a.product_price)) {
           return -1;
@@ -136,7 +136,7 @@ export class PageAccueilComponent implements OnInit {
       });
     } else {
       console.log('mo');
-      this.listData = this.listPlantFilter.sort((a, b) => {
+      this.listData = this.listData.sort((a, b) => {
         this.upDownPrix = true;
         //console.log(a.product_price);
         if (parseFloat(a.product_price) < parseFloat(b.product_price)) {
@@ -158,7 +158,7 @@ export class PageAccueilComponent implements OnInit {
     this.upDownAlpha = false;
     console.log(this.counterAlpha);
     if (this.counterAlpha % 2 == 0) {
-      this.listData = this.listPlantFilter.sort((a, b) => {
+      this.listData = this.listData.sort((a, b) => {
         //console.log(a.product_price);
         if (b.product_name < a.product_name) {
           return -1;
@@ -171,7 +171,7 @@ export class PageAccueilComponent implements OnInit {
     } else {
       console.log('mo');
       this.upDownAlpha = true;
-      this.listData = this.listPlantFilter.sort((a, b) => {
+      this.listData = this.listData.sort((a, b) => {
         //console.log(a.product_price);
         if (a.product_name < b.product_name) {
           return -1;
@@ -189,7 +189,7 @@ export class PageAccueilComponent implements OnInit {
     this.counterAvis++;
     console.log(this.counterAvis);
     if (this.counterAvis % 2 == 0) {
-      this.listData = this.listPlantFilter.sort((a, b) => {
+      this.listData = this.listData.sort((a, b) => {
         //console.log(a.product_price);
         if (b.product_rating < a.product_rating) {
           return -1;
@@ -201,7 +201,7 @@ export class PageAccueilComponent implements OnInit {
       });
     } else {
       console.log('mo');
-      this.listData = this.listPlantFilter.sort((a, b) => {
+      this.listData = this.listData.sort((a, b) => {
         //console.log(a.product_price);
         if (a.product_rating < b.product_rating) {
           return -1;
