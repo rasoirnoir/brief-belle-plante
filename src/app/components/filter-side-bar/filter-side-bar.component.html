@@ -1,27 +1,54 @@
 <div class="custom-side-bar flex-shrink-0 bg-white border-end">
+  <div class="p-3">
+    <span class="fs-5 fw-semibold">Filtres</span>
+  </div>
+  <ul class="list-unstyled ps-0 border-top">
     <div class="p-3">
-        <span class="fs-5 fw-semibold">Filtres</span>
-    </div>
-    <ul class="list-unstyled ps-0 border-top">
-        <div class="p-3">
-            <p class="mb-1 fs-5 fw-semibold">Catégories</p>
-            <div 
-                *ngFor="let category of listCategories; let indexCat = index" 
-                class="form-check">
-                
-                <input 
-                    class="form-check-input" 
-                    type="checkbox" 
-                    value="testcategory" 
-                    id="checkBoxCategory{{indexCat}}">
+      <p class="mb-1 fs-5 fw-semibold">Catégories</p>
+      <div
+        *ngFor="let category of listCategories; let indexCat = index"
+        class="form-check"
+      >
+        <input
+          class="form-check-input"
+          type="checkbox"
+          value="testcategory"
+          id="checkBoxCategory{{ indexCat }}"
+        />
 
-                <label class="form-check-label" for="checkBoxCategory{{indexCat}}">
-                    {{ category }}
-                </label>
-            </div>
-            <div *ngIf="listCategories.length == 0 ">
-                Aucune catégorie disponible
-            </div>
-        </div>
-    </ul>
+        <label class="form-check-label" for="checkBoxCategory{{ indexCat }}">
+          {{ category }}
+        </label>
+      </div>
+      <div *ngIf="listCategories.length == 0">Aucune catégorie disponible</div>
+    </div>
+    <div class="p-3">
+      <p class="mb-1 fs-5 fw-semibold">Prix</p>
+      <input
+        type="number"
+        id="filter-price-min"
+        name="filter-price-min"
+        min="0"
+        max="1000"
+        value="0"
+      />
+      <input
+        type="number"
+        id="filter-price-max"
+        name="filter-price-max"
+        min="0"
+        max="1000"
+        value="1000"
+      />
+      <button class="btn btn-success" (click)="onFilterPriceClick()">
+        Valider
+      </button>
+    </div>
+
+    <div class="p-3">
+      <p class="mb-1 fs-5 fw-semibold">Avis</p>
+      <app-avis-bar (starClicked)="onStarClick($event)"></app-avis-bar>
+      <button class="btn btn-success" (click)="onAvisClick()">Valider</button>
+    </div>
+  </ul>
 </div>
