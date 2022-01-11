@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
 @Component({
   selector: 'app-avis-bar',
@@ -8,19 +8,29 @@ import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 export class AvisBarComponent implements OnInit {
   starStates: { stateSelectedUser: boolean; stateHoverUser: boolean }[];
   @Output() starClicked = new EventEmitter<any[]>();
+  @Input() initialRating: string = '0';
 
   constructor() {
     this.starStates = [];
-
-    for (let index = 0; index < 5; index++) {
-      this.starStates.push({
-        stateSelectedUser: false,
-        stateHoverUser: false,
-      });
-    }
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    const numInitRating = parseInt(this.initialRating);
+    console.log('Initial rating : ' + numInitRating);
+    for (let index = 0; index < 5; index++) {
+      if (index < numInitRating) {
+        this.starStates.push({
+          stateSelectedUser: true,
+          stateHoverUser: false,
+        });
+      } else {
+        this.starStates.push({
+          stateSelectedUser: false,
+          stateHoverUser: false,
+        });
+      }
+    }
+  }
 
   onMouseOver(index: number) {
     console.log('star over', index);
