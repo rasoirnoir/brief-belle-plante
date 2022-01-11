@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MinMax } from 'src/app/components/filter-side-bar/filter-side-bar.component';
 import { PlantouneService } from 'src/app/services/plantoune.service';
 import * as _ from 'underscore';
+import { filter } from 'underscore';
 
 @Component({
   selector: 'app-page-accueil',
@@ -13,11 +14,13 @@ export class PageAccueilComponent implements OnInit {
   public listCategoriesFilter: string[];
   public listPlantFilter: any[];
   public search = '';
+  public filtreCat: string[];
 
   constructor(private plantouneService: PlantouneService) {
     this.listData = [];
     this.listCategoriesFilter = [];
     this.listPlantFilter = [];
+    this.filtreCat = [];
   }
 
   ngOnInit(): void {
@@ -66,20 +69,25 @@ export class PageAccueilComponent implements OnInit {
   }
 
   rechercheCat(filterCategories: string[]) {
-    if (filterCategories.length > 0) {
-      // console.log('a', filterCategories.length);
+    this.filtreCat = filterCategories;
+    console.log(this.filtreCat);
+
+    if (this.filtreCat.length > 0) {
       this.listData = this.listPlantFilter.filter((product) => {
         return filterCategories.includes(product.product_breadcrumb_label);
       });
-    } else if (filterCategories.length == 0) {
-      // console.log('lol', filterCategories.length);
+    } else if (this.filtreCat.length == 0) {
+      console.log(this.listData);
       this.listData = [...this.listPlantFilter];
     }
   }
 
-  onStarFiltered(starArray: any) {
-    console.log(starArray);
-    this.listData = this.listPlantFilter.filter((product) => {});
+  onStarFiltered(rating: any) {
+    console.log("Page d'accueil : onStarFiltered : ");
+    console.log('rating : ' + rating);
+    this.listData = this.listPlantFilter.filter((product) => {
+      return product.product_rating == rating;
+    });
   }
 
   searchInput(searchEvent: any) {
