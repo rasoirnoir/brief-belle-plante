@@ -34,9 +34,8 @@ export class FilterSideBarComponent implements OnInit {
       });
     }
     //  console.log(this.categorieTab);
-
     this.idCategories.emit(this.categorieTab);
-  }
+}
 
   onFilterPriceClick() {
     const minValue = (<HTMLInputElement>(
