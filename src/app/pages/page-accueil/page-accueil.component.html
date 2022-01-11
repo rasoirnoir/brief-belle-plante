@@ -23,10 +23,15 @@
     </div>
 
     <div class="row">
-      <div class="col" *ngFor="let product of listData">
-        <app-card-plante [plant]="product" (clickLike)="onEventLike()">
-        </app-card-plante>
+      <div class="py-3" *ngIf="listData.length == 0; else productList">
+        Aucun produit correspondant.
       </div>
+      <ng-template #productList>
+        <div class="col" *ngFor="let product of listData">
+          <app-card-plante [plant]="product" (clickLike)="onEventLike()">
+          </app-card-plante>
+        </div>
+      </ng-template>
     </div>
   </div>
 </div>
