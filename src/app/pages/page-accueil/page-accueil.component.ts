@@ -101,7 +101,7 @@ export class PageAccueilComponent implements OnInit {
 
   onStarFiltered(rating: any) {
     this.listData = this.listPlantFilter.filter((product) => {
-      return product.product_rating == rating;
+      return product.product_rating >= rating;
     });
   }
 
@@ -190,34 +190,36 @@ export class PageAccueilComponent implements OnInit {
     }
     // }
   }
+
   triAvisPlant(event: any) {
-    this.counterAvis++;
-    this.upDownAvis = false;
-    //console.log(this.counterAvis);
-    if (this.counterAvis % 2 == 0) {
-      this.listData = this.listPlantFilter.sort((a, b) => {
-        //console.log(a.product_price);
-        if (b.product_rating < a.product_rating) {
-          return -1;
-        } else if (b.product_rating > a.product_rating) {
-          return 1;
-        } else {
-          return 0;
-        }
-      });
-    } else {
-      //console.log('mo');
-      this.upDownAvis = true;
-      this.listData = this.listPlantFilter.sort((a, b) => {
-        //console.log(a.product_price);
-        if (a.product_rating < b.product_rating) {
-          return -1;
-        } else if (a.product_rating > b.product_rating) {
-          return 1;
-        } else {
-          return 0;
-        }
-      });
-    }
+      this.counterAvis++;
+      console.log(this.counterAvis);
+      if (this.counterAvis % 2 == 0) {
+        this.listData = this.listPlantFilter.sort((a, b) => {
+          //console.log(a.product_price);
+          if (b.product_rating < a.product_rating) {
+            return -1;
+          } else if (b.product_rating > a.product_rating) {
+            return 1;
+          } else {
+            return 0;
+          }
+        });
+      } else {
+        console.log('mo');
+        this.listData = this.listPlantFilter.sort((a, b) => {
+          //console.log(a.product_price);
+          if (a.product_rating < b.product_rating) {
+            return -1;
+          } else if (a.product_rating > b.product_rating) {
+            return 1;
+          } else {
+            return 0;
+          }
+        });
+      }
+
+
+
   }
 }
