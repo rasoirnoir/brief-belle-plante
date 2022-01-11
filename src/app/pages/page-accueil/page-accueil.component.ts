@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MinMax } from 'src/app/components/filter-side-bar/filter-side-bar.component';
 import { PlantouneService } from 'src/app/services/plantoune.service';
 import * as _ from 'underscore';
-import { filter } from 'underscore';
+import { any, filter } from 'underscore';
 
 @Component({
   selector: 'app-page-accueil',
@@ -15,12 +15,14 @@ export class PageAccueilComponent implements OnInit {
   public listPlantFilter: any[];
   public search = '';
   public filtreCat: string[];
+  counter: number;
 
   constructor(private plantouneService: PlantouneService) {
     this.listData = [];
     this.listCategoriesFilter = [];
     this.listPlantFilter = [];
     this.filtreCat = [];
+    this.counter = 0;
   }
 
   ngOnInit(): void {
@@ -70,21 +72,21 @@ export class PageAccueilComponent implements OnInit {
 
   rechercheCat(filterCategories: string[]) {
     this.filtreCat = filterCategories;
-    console.log(this.filtreCat);
+    //console.log(this.filtreCat);
 
     if (this.filtreCat.length > 0) {
       this.listData = this.listPlantFilter.filter((product) => {
         return filterCategories.includes(product.product_breadcrumb_label);
       });
     } else if (this.filtreCat.length == 0) {
-      console.log(this.listData);
+      //console.log(this.listData);
       this.listData = [...this.listPlantFilter];
     }
   }
 
   onStarFiltered(rating: any) {
-    console.log("Page d'accueil : onStarFiltered : ");
-    console.log('rating : ' + rating);
+    //console.log("Page d'accueil : onStarFiltered : ");
+    //console.log('rating : ' + rating);
     this.listData = this.listPlantFilter.filter((product) => {
       return product.product_rating == rating;
     });
@@ -104,32 +106,71 @@ export class PageAccueilComponent implements OnInit {
     }
   }
 
-  triPlant(event: any) {
+  triPrixPlant(event: any) {
     const text = event.target.innerText;
     console.log(text);
     if (text == 'Prix') {
-      console.log('mo');
-      this.listData = this.listPlantFilter.sort((a, b) => {
-        console.log(a.product_price);
-        if (a.product_price < b.product_price) {
-          return -1;
-        } else if (a.product_price > b.product_price) {
-          return 1;
-        } else {
-          return 0;
-        }
-      });
-    }
-    if (text == 'Ordre Alpha') {
-      this.listData = this.listPlantFilter.sort((a, b) => {
-        if (a.product_name < b.product_name) {
-          return -1;
-        } else if (a.product_name > b.product_name) {
-          return 1;
-        } else {
-          return 0;
-        }
-      });
+      this.counter++;
+      console.log(this.counter);
+      if (this.counter % 2 == 0) {
+        console.log('lol');
+        this.listData = this.listPlantFilter.sort((a, b) => {
+          //console.log(a.product_price);
+          if (b.product_price < a.product_price) {
+            return -1;
+          } else if (b.product_price > a.product_price) {
+            return 1;
+          } else {
+            return 0;
+          }
+        });
+      } else {
+        console.log('mo');
+        this.listData = this.listPlantFilter.sort((a, b) => {
+          //console.log(a.product_price);
+          if (a.product_price < b.product_price) {
+            return -1;
+          } else if (a.product_price > b.product_price) {
+            return 1;
+          } else {
+            return 0;
+          }
+        });
+      }
     }
   }
+  triAlphaPlant(event: any) {
+    const text = event.target.innerText;
+    console.log(text);
+    if (text == 'Ordre Alpha') {
+      this.counter++;
+      console.log(this.counter);
+      if (this.counter % 2 == 0) {
+        console.log('lol');
+        this.listData = this.listPlantFilter.sort((a, b) => {
+          //console.log(a.product_price);
+          if (b.product_name < a.product_name) {
+            return -1;
+          } else if (b.product_name > a.product_name) {
+            return 1;
+          } else {
+            return 0;
+          }
+        });
+      } else {
+        console.log('mo');
+        this.listData = this.listPlantFilter.sort((a, b) => {
+          //console.log(a.product_price);
+          if (a.product_name < b.product_name) {
+            return -1;
+          } else if (a.product_name > b.product_name) {
+            return 1;
+          } else {
+            return 0;
+          }
+        });
+      }
+    }
+  }
+  triAvisPlant(event: any) {}
 }
