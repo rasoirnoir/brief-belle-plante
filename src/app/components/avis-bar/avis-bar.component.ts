@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
 @Component({
   selector: 'app-avis-bar',
@@ -8,15 +8,24 @@ import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 export class AvisBarComponent implements OnInit {
   starStates: { stateSelectedUser: boolean; stateHoverUser: boolean }[];
   @Output() starClicked = new EventEmitter<any[]>();
+  @Input() initialRating: string = '0';
 
   constructor() {
     this.starStates = [];
+    const numInitRating = parseInt(this.initialRating);
 
     for (let index = 0; index < 5; index++) {
-      this.starStates.push({
-        stateSelectedUser: false,
-        stateHoverUser: false,
-      });
+      if (index < numInitRating) {
+        this.starStates.push({
+          stateSelectedUser: true,
+          stateHoverUser: false,
+        });
+      } else {
+        this.starStates.push({
+          stateSelectedUser: false,
+          stateHoverUser: false,
+        });
+      }
     }
   }
 
