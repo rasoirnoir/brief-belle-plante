@@ -1,2 +1,38 @@
-<p>page-details works!</p>
-
+<div class="row my-5">
+  <img src="{{plantDetails.product_url_picture}}" class="col-sm-6" style="width: 24rem;" alt="Image de {{ plantDetails.product_name }}">
+  <div class="col-sm-6">
+    <h2 style="font-size: medium; font-weight: lighter; color: #403F3F;">{{plantDetails.product_breadcrumb_label}}</h2>
+    <h1 class="card-title" style="color: #403F3F; font-size: 36px;">{{ plantDetails.product_name }}</h1>
+    <div>
+      <div class="card-content" style="font-weight: bolder; font-size: xx-large; color: #403F3F;">{{ plantDetails.product_unitprice_ati }} €</div>
+      <div>Quantité restante : {{plantDetails.product_qty}}</div>
+    </div>
+    <div class="card-content">
+      <app-avis-bar></app-avis-bar>
+    </div>
+    <div>
+      <p style="color: #403F3F;">
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+        Nunc et facilisi egestas lorem.
+        Est sit fermentum, nunc lectus venenatis leo.
+        Sit volutpat laoreet morbi risus etiam in.
+        Nunc odio turpis tincidunt tincidunt vestibulum.
+        Nec eu quam et adipiscing urna, arcu ut vestibulum euismod.
+        Sed eu odio massa congue.
+        Consectetur lacus elit tempor sed ac molestie odio ut dictumst.
+        Massa mauris, elit ut egestas.
+        Ac libero, duis feugiat rhoncus.
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+        Nunc et facilisi egestas lorem.
+        Est sit fermentum, nunc lectus venenatis leo.
+        Sit volutpat laoreet morbi risus etiam in.
+        Nunc odio turpis tincidunt tincidunt vestibulum.
+        Nec eu quam et adipiscing urna, arcu ut vestibulum euismod.
+        Sed eu odio massa congue.
+        Consectetur lacus elit tempor sed ac molestie odio ut dictumst.
+        Massa mauris, elit ut egestas.
+        Ac libero, duis feugiat rhoncus.
+      </p>
+    </div>
+  </div>
+</div>
