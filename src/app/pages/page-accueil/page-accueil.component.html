@@ -23,7 +23,7 @@
       >
         Prix
         <app-icon
-          [iconName]="upDownPrix ? 'caret-up-square' : 'caret-down-square'"
+          [iconName]="!upDownPrix ? 'caret-up-square' : 'caret-down-square'"
         ></app-icon>
       </button>
       <button
@@ -32,7 +32,7 @@
       >
         Ordre Alpha
         <app-icon
-          [iconName]="upDownAlpha ? 'caret-up-square' : 'caret-down-square'"
+          [iconName]="!upDownAlpha ? 'caret-up-square' : 'caret-down-square'"
         ></app-icon>
       </button>
       <button
@@ -41,7 +41,7 @@
       >
         Avis
         <app-icon
-          [iconName]="upDownAvis ? 'caret-up-square' : 'caret-down-square'"
+          [iconName]="!upDownAvis ? 'caret-up-square' : 'caret-down-square'"
         ></app-icon>
       </button>
     </div>

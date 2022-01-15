@@ -23,32 +23,50 @@
       </div>
       <div *ngIf="listCategories.length == 0">Aucune catégorie disponible</div>
     </div>
-    <div class="p-3">
+    <div class="p-3 d-flex flex-column">
       <p class="mb-1 fs-5 fw-semibold">Prix</p>
-      <input
-        type="number"
-        id="filter-price-min"
-        name="filter-price-min"
-        min="0"
-        max="1000"
-        value="0"
-      />
-      <input
-        type="number"
-        id="filter-price-max"
-        name="filter-price-max"
-        min="0"
-        max="1000"
-        value="1000"
-      />
-      <button class="btn btn-success" (click)="onFilterPriceClick()">
+      <div id="div-min">
+        <label for="filter-price-min" class="m-1">min :</label>
+        <input
+          class="my-1 input-number"
+          type="number"
+          id="filter-price-min"
+          name="filter-price-min"
+          min="0"
+          max="1000"
+          value="0"
+        />
+      </div>
+
+      <div id="div-max">
+        <label for="filter-price-max" class="m-1">max :</label>
+        <input
+          class="my-1 input-number"
+          type="number"
+          id="filter-price-max"
+          name="filter-price-max"
+          min="0"
+          max="1000"
+          value="1000"
+        />
+      </div>
+
+      <button class="btn btn-success my-1" (click)="onFilterPriceClick()">
         Valider
       </button>
     </div>
+
     <div class="p-3">
-      <p class="mb-1 fs-5 fw-semibold">Avis</p>
-      <app-avis-bar (starClicked)="onStarClick($event)"></app-avis-bar>
-      <button class="btn btn-success" (click)="onAvisClick()">Valider</button>
+      <div id="avis-actions d-flex flex-column p-3">
+        <p class="mb-1 fs-5 fw-semibold">Avis</p>
+        <app-avis-bar (starClicked)="onStarClick($event)"></app-avis-bar>
+        <button class="btn btn-success m-1" (click)="onAvisClick()">
+          Valider
+        </button>
+        <button class="btn btn-success m-1" (click)="onAvisResetClick()">
+          reset
+        </button>
+      </div>
     </div>
   </ul>
 </div>
