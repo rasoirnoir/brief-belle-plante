@@ -13,12 +13,14 @@ export class PageAccueilComponent implements OnInit {
   public listCategoriesFilter: string[];
   public listPlantFilter: any[];
 
+  //Critères de tri
   counterPrix: number;
   counterAlpha: number;
   counterAvis: number;
   upDownPrix: boolean;
   upDownAlpha: boolean;
   upDownAvis: boolean;
+  private currentTri: CurrentTri;
 
   //Critères de filtre
   private minValue: number;
@@ -41,6 +43,7 @@ export class PageAccueilComponent implements OnInit {
     this.minValue = 0;
     this.maxValue = 1000;
     this.rating = 0;
+    this.currentTri = CurrentTri.TRI_ALPHA; //Par défault, les plantes seront triées par ordre alphabétique
   }
 
   ngOnInit(): void {
@@ -66,7 +69,7 @@ export class PageAccueilComponent implements OnInit {
     });
   }
 
-  onEventLike(isLiked : boolean) {
+  onEventLike(isLiked: boolean) {
     this.plantouneService.plantLiked$.next(isLiked);
   }
 
@@ -96,6 +99,9 @@ export class PageAccueilComponent implements OnInit {
     this.filter();
   }
 
+  /**
+   * Filtre les plantes affichées dans la page d'après des critères définis par l'utilisateur
+   */
   private filter() {
     console.log(`
     Values filtered :
@@ -103,7 +109,10 @@ export class PageAccueilComponent implements OnInit {
     prix max : ${this.maxValue}
     catégories : ${this.filtreCat}
     rating : ${this.rating}
-    search : ${this.search}`);
+    search : ${this.search}
+    tri actuel : ${this.currentTri}`);
+
+    //On applique les filtres.
     this.listData = this.listPlantFilter.filter((product) => {
       return (
         parseInt(product.product_unitprice_ati) <= this.maxValue &&
@@ -113,6 +122,20 @@ export class PageAccueilComponent implements OnInit {
         product.product_name.toLowerCase().includes(this.search.toLowerCase())
       );
     });
+
+    //On applique les critères de tri.
+    switch (this.currentTri) {
+      case CurrentTri.TRI_ALPHA:
+        this.triAlpha();
+        break;
+      case CurrentTri.TRI_AVIS:
+        this.triAvis();
+        break;
+      case CurrentTri.TRI_PRIX:
+        this.triPrix();
+        break;
+      default:
+    }
   }
 
   triPrixPlant(event: any) {
@@ -120,10 +143,15 @@ export class PageAccueilComponent implements OnInit {
     // console.log(text);
     // if (text == 'Prix') {
     this.counterPrix++;
-    console.log(this.counterPrix);
+    this.upDownPrix = !this.upDownPrix;
+    this.currentTri = CurrentTri.TRI_PRIX;
+    this.triPrix();
+  }
+
+  private triPrix() {
+    console.log('Counter prix : ' + this.counterPrix);
     if (this.counterPrix % 2 == 0) {
-      this.upDownPrix = false;
-      console.log('lol');
+      // this.upDownPrix = false;
       this.listData = this.listData.sort((a, b) => {
         console.log(parseFloat(a.product_price));
         if (parseFloat(b.product_price) < parseFloat(a.product_price)) {
@@ -135,9 +163,8 @@ export class PageAccueilComponent implements OnInit {
         }
       });
     } else {
-      console.log('mo');
       this.listData = this.listData.sort((a, b) => {
-        this.upDownPrix = true;
+        // this.upDownPrix = true;
         //console.log(a.product_price);
         if (parseFloat(a.product_price) < parseFloat(b.product_price)) {
           return -1;
@@ -148,14 +175,20 @@ export class PageAccueilComponent implements OnInit {
         }
       });
     }
-    // }
   }
+
   triAlphaPlant(event: any) {
     // const text = event.target.innerText;
     // console.log(text);
     // if (text == 'Ordre Alpha') {
     this.counterAlpha++;
-    this.upDownAlpha = false;
+    this.upDownAlpha = !this.upDownAlpha;
+    this.currentTri = CurrentTri.TRI_ALPHA;
+    this.triAlpha();
+    // }
+  }
+
+  private triAlpha() {
     console.log(this.counterAlpha);
     if (this.counterAlpha % 2 == 0) {
       this.listData = this.listData.sort((a, b) => {
@@ -170,7 +203,7 @@ export class PageAccueilComponent implements OnInit {
       });
     } else {
       console.log('mo');
-      this.upDownAlpha = true;
+      // this.upDownAlpha = true;
       this.listData = this.listData.sort((a, b) => {
         //console.log(a.product_price);
         if (a.product_name < b.product_name) {
@@ -182,11 +215,16 @@ export class PageAccueilComponent implements OnInit {
         }
       });
     }
-    // }
   }
 
   triAvisPlant(event: any) {
     this.counterAvis++;
+    this.currentTri = CurrentTri.TRI_AVIS;
+    this.upDownAvis = !this.upDownAvis;
+    this.triAvis();
+  }
+
+  private triAvis() {
     console.log(this.counterAvis);
     if (this.counterAvis % 2 == 0) {
       this.listData = this.listData.sort((a, b) => {
@@ -213,4 +251,10 @@ export class PageAccueilComponent implements OnInit {
       });
     }
   }
+}
+
+enum CurrentTri {
+  TRI_PRIX,
+  TRI_ALPHA,
+  TRI_AVIS,
 }

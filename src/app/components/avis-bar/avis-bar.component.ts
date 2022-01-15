@@ -15,6 +15,14 @@ export class AvisBarComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.setStars();
+  }
+
+  ngOnChanges() {
+    //his.setStars();
+  }
+
+  private setStars() {
     const numInitRating = this.initialRating;
     for (let index = 0; index < 5; index++) {
       if (index < numInitRating) {
@@ -44,7 +52,6 @@ export class AvisBarComponent implements OnInit {
   }
 
   onMouseLeave() {
-    // this.starState = ['star', 'star', 'star', 'star', 'star'];
     const tempTab = [];
     for (let index = 0; index < this.starStates.length; index++) {
       tempTab.push({

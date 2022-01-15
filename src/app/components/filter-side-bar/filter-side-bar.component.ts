@@ -35,7 +35,7 @@ export class FilterSideBarComponent implements OnInit {
     }
     //  console.log(this.categorieTab);
     this.idCategories.emit(this.categorieTab);
-}
+  }
 
   onFilterPriceClick() {
     const minValue = (<HTMLInputElement>(
@@ -51,7 +51,12 @@ export class FilterSideBarComponent implements OnInit {
 
   onAvisClick() {
     console.log('Avis click :)');
-    //this.filterStar.emit(this.starFilter);
+    this.filterStar.emit(this.getSelectedRating());
+  }
+
+  onAvisResetClick() {
+    console.log('Reset click :)');
+    this.resetSelectedRating();
     this.filterStar.emit(this.getSelectedRating());
   }
 
@@ -59,6 +64,10 @@ export class FilterSideBarComponent implements OnInit {
     this.starFilter = starArray;
   }
 
+  /**
+   * Récupère le nombre d'étoiles actuellement séléctionnées par l'utilisateur
+   * @returns
+   */
   private getSelectedRating(): number {
     for (let index = 0; index < this.starFilter.length; index++) {
       if (!this.starFilter[index].stateSelectedUser) {
@@ -66,6 +75,15 @@ export class FilterSideBarComponent implements OnInit {
       }
     }
     return 5;
+  }
+
+  /**
+   * Remet les étoiles à 0
+   */
+  private resetSelectedRating() {
+    for (let index = 0; index < this.starFilter.length; index++) {
+      this.starFilter[index].stateSelectedUser = false;
+    }
   }
 }
 
