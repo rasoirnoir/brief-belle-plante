@@ -9,9 +9,9 @@ import * as _ from 'underscore';
   styleUrls: ['./page-accueil.component.scss'],
 })
 export class PageAccueilComponent implements OnInit {
-  public listData: any[];
+  public listData: any[]; //La liste des plantes à afficher une fois les filtres appliqués
   public listCategoriesFilter: string[];
-  public listPlantFilter: any[];
+  public listPlantFilter: any[]; //La liste complète des plantes sur laquelle travailler pour les filtres
 
   //Critères de tri
   counterPrix: number;
@@ -20,7 +20,7 @@ export class PageAccueilComponent implements OnInit {
   upDownPrix: boolean;
   upDownAlpha: boolean;
   upDownAvis: boolean;
-  private currentTri: CurrentTri;
+  private currentTri: CurrentTri; //L'enum CurrentTri est décrite à la fin de ce fichier
 
   //Critères de filtre
   private minValue: number;
@@ -81,6 +81,7 @@ export class PageAccueilComponent implements OnInit {
 
   rechercheCat(filterCategories: string[]) {
     if (filterCategories.length == 0) {
+      //Si aucune case de catégorie n'est sélectionnée par l'utilisateur, on prend toutes les catégories disponibles
       this.filtreCat = this.listCategoriesFilter;
     } else {
       this.filtreCat = filterCategories;
@@ -101,6 +102,7 @@ export class PageAccueilComponent implements OnInit {
 
   /**
    * Filtre les plantes affichées dans la page d'après des critères définis par l'utilisateur
+   * puis applique le tri actuel
    */
   private filter() {
     console.log(`

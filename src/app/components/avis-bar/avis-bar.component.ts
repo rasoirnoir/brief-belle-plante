@@ -18,10 +18,6 @@ export class AvisBarComponent implements OnInit {
     this.setStars();
   }
 
-  ngOnChanges() {
-    //his.setStars();
-  }
-
   private setStars() {
     const numInitRating = this.initialRating;
     for (let index = 0; index < 5; index++) {

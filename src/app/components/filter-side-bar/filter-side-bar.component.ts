@@ -21,6 +21,10 @@ export class FilterSideBarComponent implements OnInit {
 
   ngOnInit(): void {}
 
+  /**
+   * Récupère la liste des catégories cochées par l'utilisateur et l'envoi au parent
+   * @param event
+   */
   rechercheCategories(event: any) {
     const catPlant = event.target.value;
     const catChecked = event.target.checked;
@@ -37,6 +41,10 @@ export class FilterSideBarComponent implements OnInit {
     this.idCategories.emit(this.categorieTab);
   }
 
+  /**
+   * Récupère les prix minimum et maximum sélectionnés par l'utilisateut et les renvoi au parent
+   * L'Objet MinMax est décrit en bas de ce fichier.
+   */
   onFilterPriceClick() {
     const minValue = (<HTMLInputElement>(
       document.getElementById('filter-price-min')
@@ -46,7 +54,8 @@ export class FilterSideBarComponent implements OnInit {
     )).value;
     const minVal = minValue ? parseInt(minValue) : 0;
     const maxVal = maxValue ? parseInt(maxValue) : 0;
-    if (minVal <= maxVal) this.filterPrice.emit(new MinMax(minVal, maxVal));
+    const minmax = new MinMax(minVal, maxVal);
+    if (minmax.isValid()) this.filterPrice.emit(minmax);
   }
 
   onAvisClick() {
@@ -58,6 +67,8 @@ export class FilterSideBarComponent implements OnInit {
     console.log('Reset click :)');
     this.resetSelectedRating();
     this.filterStar.emit(this.getSelectedRating());
+    //Cette méthode fonctionne bien au niveau du filtre
+    //En revanche le nombre d'étoiles affichées ne se remet pas à 0
   }
 
   onStarClick(starArray: any) {
@@ -87,6 +98,9 @@ export class FilterSideBarComponent implements OnInit {
   }
 }
 
+/**
+ * Simple classe contenant 2 valeurs numériques représentant un minimum et un maximum
+ */
 export class MinMax {
   min: number;
   max: number;
@@ -94,5 +108,9 @@ export class MinMax {
   constructor(private minVal: number = 0, private maxVal: number = 0) {
     this.min = minVal;
     this.max = maxVal;
+  }
+
+  public isValid(): boolean {
+    return this.min <= this.max;
   }
 }
