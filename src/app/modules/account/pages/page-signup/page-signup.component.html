@@ -1,0 +1,99 @@
+<div class="login-form text-center">
+  <main class="form-signup">
+    <!-- <form (ngSubmit)="onReactiveSubmit()" [formGroup]="signupForm">
+      <h1>Merci de vous inscrire</h1>
+      <input formControlName="email" />
+      <input formControlName="password" />
+      <button type="submit" [disabled]="signupForm.invalid"></button>
+    </form> -->
+    <form (ngSubmit)="onReactiveSubmit()" [formGroup]="signupForm">
+      <h1>Merci de vous inscrire</h1>
+      <div class="form-floating">
+        <input
+          type="email"
+          class="form-control"
+          id="floatingInputFirstName"
+          placeholder=""
+          name="firstName"
+          formControlName="firstName"
+          [ngClass]="{
+            'is-valid':
+              signupForm.controls['firstName'].touched &&
+              signupForm.controls['firstName'].valid,
+            'is-invalid':
+              signupForm.controls['firstName'].touched &&
+              !signupForm.controls['firstName'].valid
+          }"
+        />
+        <label for="floatingInput">Prénom</label>
+      </div>
+      <div class="form-floating">
+        <input
+          type="email"
+          class="form-control"
+          id="floatingInputLastName"
+          placeholder=""
+          name="lastName"
+          formControlName="lastName"
+          [ngClass]="{
+            'is-valid':
+              signupForm.controls['lastName'].touched &&
+              signupForm.controls['lastName'].valid,
+            'is-invalid':
+              signupForm.controls['lastName'].touched &&
+              !signupForm.controls['lastName'].valid
+          }"
+        />
+        <label for="floatingInput">Nom</label>
+      </div>
+      <div class="form-floating">
+        <input
+          type="email"
+          class="form-control"
+          id="floatingInputEmail"
+          placeholder=""
+          name="email"
+          formControlName="email"
+          [ngClass]="{
+            'is-valid':
+              signupForm.controls['email'].touched &&
+              signupForm.controls['email'].valid,
+            'is-invalid':
+              signupForm.controls['email'].touched &&
+              !signupForm.controls['email'].valid
+          }"
+        />
+        <label for="floatingInput">Adresse email</label>
+      </div>
+      <div class="form-floating">
+        <input
+          type="password"
+          class="form-control"
+          id="floatingPassword"
+          placeholder=""
+          name="password"
+          formControlName="password"
+          [ngClass]="{
+            'is-valid':
+              signupForm.controls['password'].touched &&
+              signupForm.controls['password'].valid,
+            'is-invalid':
+              signupForm.controls['password'].touched &&
+              !signupForm.controls['password'].valid
+          }"
+        />
+        <label for="floatingPassword">Mot de passe</label>
+      </div>
+
+      <button
+        class="w-100 btn btn-lg btn-success"
+        type="submit"
+        [disabled]="signupForm.invalid"
+      >
+        Je m'inscris !
+      </button>
+      <p>Value : {{ signupForm.value | json }}</p>
+      <p>Valid : {{ signupForm.valid }}</p>
+    </form>
+  </main>
+</div>
