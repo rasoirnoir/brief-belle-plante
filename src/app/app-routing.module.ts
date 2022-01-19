@@ -8,11 +8,16 @@ const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
   { path: 'home', component: PageAccueilComponent },
   { path: 'details/:plantId', component: PageDetailsComponent },
-  { path: '**', component: PageNotFoundComponent }
+  {
+    path: 'account',
+    loadChildren: () =>
+      import('./modules/account/account.module').then((m) => m.AccountModule),
+  },
+  { path: '**', component: PageNotFoundComponent },
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}
