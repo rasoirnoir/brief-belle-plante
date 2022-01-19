@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { MinMax } from 'src/app/components/filter-side-bar/filter-side-bar.component';
 import { PlantouneService } from 'src/app/services/plantoune.service';
+import { environment } from 'src/environments/environment';
 import * as _ from 'underscore';
+import jwt_decode from 'jwt-decode';
 
 @Component({
   selector: 'app-page-accueil',
@@ -47,26 +49,35 @@ export class PageAccueilComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.plantouneService.getData().subscribe((listPlant: any[]) => {
-      console.log(listPlant);
+    const token = localStorage.getItem(environment.tokenKey);
+    if (token) {
+      const decodedToken = jwt_decode<any>(token);
+      const userId = decodedToken.sub;
+      this.plantouneService.getPlantFav(userId).subscribe((data: any) => {
+        console.log(data);
+      });
+    } else {
+      this.plantouneService.getData().subscribe((listPlant: any[]) => {
+        console.log(listPlant);
 
-      /**
-       * Technique avec Underscore JS pour recupérer les catégories uniques de nos plantes
-       */
-      const listAllCategories = listPlant.map(
-        (product) => product.product_breadcrumb_label
-      );
-      const listUniqCategories = _.uniq(listAllCategories);
-      /**
-       * Technique native JS pour recupérer les catégories uniques de nos plantes
-       */
-      const listUniqJsCategories = [...new Set(listAllCategories)];
-      this.listCategoriesFilter = listUniqJsCategories;
-      this.filtreCat = this.listCategoriesFilter;
-      this.listData = [...listPlant];
-      // this.listData.length = 9;
-      this.listPlantFilter = [...listPlant]; //listPlantFilter tableau brut qui ne change pas
-    });
+        /**
+         * Technique avec Underscore JS pour recupérer les catégories uniques de nos plantes
+         */
+        const listAllCategories = listPlant.map(
+          (product) => product.product_breadcrumb_label
+        );
+        const listUniqCategories = _.uniq(listAllCategories);
+        /**
+         * Technique native JS pour recupérer les catégories uniques de nos plantes
+         */
+        const listUniqJsCategories = [...new Set(listAllCategories)];
+        this.listCategoriesFilter = listUniqJsCategories;
+        this.filtreCat = this.listCategoriesFilter;
+        this.listData = [...listPlant];
+        // this.listData.length = 9;
+        this.listPlantFilter = [...listPlant]; //listPlantFilter tableau brut qui ne change pas
+      });
+    }
   }
 
   onEventLike(isLiked: boolean) {

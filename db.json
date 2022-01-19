@@ -6074,5 +6074,12 @@
       "lastName": "ghqeg",
       "id": 4
     }
+  ],
+  "favPlant": [
+    {
+      "id": 0,
+      "userId": 1,
+      "plantId": 952438
+    }
   ]
 }
